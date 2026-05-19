@@ -63,6 +63,7 @@ export default function UserProfile() {
 
   const fetchAll = async () => {
     setLoading(true)
+    setIsRepoAnalyzing(true)
     try {
       const [profileRes, statsRes, activityRes] = await Promise.all([
         isOwnProfile ? userProfileApi.getMyProfile() : userProfileApi.getProfile(targetUid),
@@ -77,6 +78,7 @@ export default function UserProfile() {
       console.error('Profile fetch failed:', err)
     } finally {
       setLoading(false)
+      setIsRepoAnalyzing(false)
     }
   }
 
@@ -375,13 +377,20 @@ export default function UserProfile() {
                 </div>
               )}
 
+          
+          </motion.div>
+          </motion.div>
+
+            </motion.div>
+
           {/* Repository analysis (loading) - render skeleton when analysis is in progress */}
           {isRepoAnalyzing && (
             <motion.div variants={itemVariants} className="mt-6">
               <AnalysisSkeleton />
             </motion.div>
           )}
-          </motion.div>
+
+          {/* Skills */}
 
           {/* Skills */}
           {!editing && profile?.skills?.length > 0 && (
